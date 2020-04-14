@@ -24,7 +24,7 @@
   </scm>
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/gazbert/spring-boot-rest-rabbit/issues</url>
+    <url>https://github.com/gazbert/spring-boot-rest-rabbit-app/issues</url>
   </issueManagement>
   <ciManagement>
     <system>Travis CI</system>
