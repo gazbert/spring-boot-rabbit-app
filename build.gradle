@@ -1,0 +1,221 @@
+/*
+ * Gradle build for the app.
+ */
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.6.RELEASE")
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:2.0.0"
+    }
+}
+
+plugins {
+    id 'application'
+    id 'java'
+    id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext.versions = [
+        springBootVersion: '2.2.6.RELEASE',
+        jacksonVersion   : '2.10.3'
+]
+
+/*
+ * Declare external dependencies here in 1 place so any (future) subprojects can use them.
+ */
+ext.libraries = [
+        spring_boot_starter_amqp  : dependencies.create("org.springframework.boot:spring-boot-starter-amqp:" + ext.versions.springBootVersion) {
+            exclude module: "spring-boot-starter-logging"
+            force = true
+        },
+        spring_boot_starter_log4j2: dependencies.create("org.springframework.boot:spring-boot-starter-log4j2:" + ext.versions.springBootVersion),
+        google_guava              : dependencies.create("com.google.guava:guava:28.2-jre"),
+        jackson_core              : dependencies.create("com.fasterxml.jackson.core:jackson-core:" + ext.versions.jacksonVersion),
+        jackson_databind          : dependencies.create("com.fasterxml.jackson.core:jackson-databind:" + ext.versions.jacksonVersion),
+
+        junit                     : dependencies.create("junit:junit:4.13"),
+        spring_boot_starter_test  : dependencies.create("org.springframework.boot:spring-boot-starter-test:" + ext.versions.springBootVersion) {
+            exclude module: "spring-boot-starter-logging"
+            force = true
+        },
+        testcontainers            : dependencies.create('org.testcontainers:testcontainers:1.13.0'),
+        awaitility                : dependencies.create('org.awaitility:awaitility:4.0.2')
+]
+
+/*
+ * Dependencies required for this project.
+ */
+dependencies {
+    implementation libraries.spring_boot_starter_amqp
+    implementation libraries.spring_boot_starter_log4j2
+    implementation libraries.google_guava
+    implementation libraries.jackson_core
+    implementation libraries.jackson_databind
+
+    testImplementation libraries.junit
+    testImplementation libraries.spring_boot_starter_test
+    testImplementation libraries.testcontainers
+    testImplementation libraries.awaitility
+}
+
+/*
+ * Add source sets for the IT tests.
+ */
+sourceSets {
+    integrationTest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+
+        java.srcDir 'src/integration-test/java'
+        resources.srcDir 'src/integration-test/resources'
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+/*
+ * Run the Testcontainer IT tests.
+ */
+task integrationTests(type: Test) {
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+/*
+ * Apply plugins + metadata to all projects. We only have 1 at the moment.
+ */
+allprojects {
+    apply plugin: 'application'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: 'maven'
+    apply plugin: 'checkstyle'
+    apply plugin: "com.github.spotbugs"
+    apply plugin: "jacoco"
+    apply plugin: 'org.springframework.boot'
+
+    group = 'com.gazbert'
+    description = 'Spring Boot Rabbit App'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+}
+
+/*
+ * Checkstyle config. Currently uses Google style guide.
+ */
+checkstyle {
+    toolVersion '8.21'
+    configFile = file("${rootDir}/etc/google_checks.xml")
+    ignoreFailures = false
+    showViolations = true
+    maxErrors = 0
+    maxWarnings = 0
+}
+checkstyleMain {
+    source = 'src/main/java'
+}
+checkstyleTest {
+    source = 'src/test/java'
+}
+
+/*
+ * Spotbugs config.
+ */
+spotbugs {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    excludeFilter = file("${rootDir}/etc/spotbugs-exclude-filter.xml")
+    reportsDir = file("$project.buildDir/reports/spotbugs")
+    effort = "max"
+}
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+/*
+ * JaCoCo coverage config.
+ */
+jacoco {
+    toolVersion = "0.8.5"
+}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = [
+                    // Not testing main() method
+                    'com.gazbert.rabbitsample.publish.PublishMessageApp',
+                    'com.gazbert.rabbitsample.errorhandling.ErrorHandlingApp',
+                    // Not testing the System.out statements
+                    'com.gazbert.rabbitsample.publish.direct.DirectMessageConsumer',
+                    'com.gazbert.rabbitsample.publish.fanout.FanoutMessageConsumer',
+                    'com.gazbert.rabbitsample.publish.topic.TopicMessageConsumer'
+            ]
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.8
+            }
+        }
+    }
+}
+
+/*
+ * Log all unit test events.
+ */
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+/*
+ * Javadoc the lot for education purposes - normally only the public API classes be documented.
+ */
+javadoc {
+    include "**/rabbitsample/**"
+}
+
+/*
+ * Must be set so Gradle boot plugin can build the fat boot jar
+ */
+bootJar {
+    mainClassName = 'com.gazbert.rabbitsample.helloworld.Application'
+}
+
+/*
+ * Allows user to specify the main class to run, e.g.
+ * ./gradlew bootRun -PmainClass=com.gazbert.rabbitsample.publish.PublishMessageApp
+ */
+application {
+    mainClassName = project.hasProperty("mainClass") ? getProperty("mainClass") : 'com.gazbert.rabbitsample.helloworld.Application'
+}

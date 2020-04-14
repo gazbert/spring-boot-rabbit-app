@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="spring-boot-rabbit-app" packages="">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%-4r [%t] %d %-5p %c{1} %M() - %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+        <!--<RollingFile name="SpringBootRabbitApp_RollingFile" fileName="./logs/app.log"-->
+                     <!--filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">-->
+            <!--<PatternLayout>-->
+                <!--<Pattern>%-4r [%t] %d %-5p %c{1} %M() - %m%n</Pattern>-->
+            <!--</PatternLayout>-->
+            <!--<Policies>-->
+                <!--<TimeBasedTriggeringPolicy/>-->
+                <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+            <!--</Policies>-->
+            <!--<DefaultRolloverStrategy max="90"/>-->
+        <!--</RollingFile>-->
+    </Appenders>
+    <Loggers>
+        <!-- debug | info | warn | error | fatal -->
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+            <!--<AppenderRef ref="SpringBootRabbitApp_RollingFile"/>-->
+        </Root>
+    </Loggers>
+</Configuration>

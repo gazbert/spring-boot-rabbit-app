@@ -1,0 +1,14 @@
+language: java
+jdk:
+  - openjdk11
+
+install: true
+
+script:
+  - ./mvnw clean install org.jacoco:jacoco-maven-plugin:prepare-agent org.jacoco:jacoco-maven-plugin:report sonar:sonar -Dmaven.javadoc.skip=true -Pall -Dsonar.projectKey=gazbert_spring-boot-rabbit-app -Dsonar.organization=gazbert-github
+
+addons:
+  sonarcloud:
+    organization: "gazbert-github"
+    token:
+      secure: "TODO"

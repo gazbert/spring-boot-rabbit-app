@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!--
+  Bug codes can be found here: http://findbugs.sourceforge.net/bugDescriptions.html
+ -->
+<FindBugsFilter>
+
+  <!--
+   Field not initialized in constructor but dereferenced without null check
+   (UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR)
+
+   False positive : Spring injects the JwtUtils via setter on instantiation.
+  -->
+  <Match>
+    <Class name="com.gazbert.restsample.api.security.authentication.JwtAuthenticationFilter"/>
+    <Bug code="UwF"/>
+  </Match>
+
+</FindBugsFilter>
