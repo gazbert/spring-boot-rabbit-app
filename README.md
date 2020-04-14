@@ -87,7 +87,7 @@ The unit test report locations are:
 * Gradle - `build/reports/tests/test/index.html`
 * Maven - `./target/surefire-reports`
 
-The integration tests require a running instance of Rabbit -  
+The integration tests require a running instance of Rabbit -
 [Testcontainers](https://www.testcontainers.org/) is used to achieve this. The IT tests are located 
 [here](./src/integration-test/java/com/gazbert/rabbitsample/it).
  
