@@ -202,7 +202,7 @@ The app will create up to 7 archives on the same day; these are stored in a dire
 current year and month. Only the last 90 archives are kept. Each archive is compressed using gzip.
 
 The logging level is set at `info`. You can change this default logging configuration in 
-the [`config/log4j2.xml`](src/main/resources/log4j2.xml) file.
+the [`config/log4j2.xml`](./config/log4j2.xml) file.
 
 ## Issue & Change Management
 Issues and new features are managed using the project 
