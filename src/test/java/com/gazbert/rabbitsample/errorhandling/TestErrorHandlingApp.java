@@ -31,6 +31,7 @@ public class TestErrorHandlingApp {
   @Test
   public void testWhenApplicationReadyEvent() {
     final ErrorHandlingApp app = new ErrorHandlingApp(messageProducer);
-    assertThatCode(app::whenApplicationReady).doesNotThrowAnyException();
+    app.whenApplicationReady();
+    Mockito.verify(messageProducer).sendMessage();
   }
 }

@@ -1,17 +1,11 @@
 package com.gazbert.rabbitsample.errorhandling.configuration;
 
-import static com.gazbert.rabbitsample.errorhandling.configuration.QueueAndExchangeNames.DLQ;
-import static com.gazbert.rabbitsample.errorhandling.configuration.QueueAndExchangeNames.DLX;
-import static com.gazbert.rabbitsample.errorhandling.configuration.QueueAndExchangeNames.MESSAGES_EXCHANGE;
-import static com.gazbert.rabbitsample.errorhandling.configuration.QueueAndExchangeNames.MESSAGES_QUEUE;
 import static com.gazbert.rabbitsample.errorhandling.configuration.QueueAndExchangeNames.PARKING_LOT_EXCHANGE;
 import static com.gazbert.rabbitsample.errorhandling.configuration.QueueAndExchangeNames.PARKING_LOT_QUEUE;
 
-import com.gazbert.rabbitsample.configuration.BaseRabbitConfiguration;
 import com.gazbert.rabbitsample.errorhandling.errorhandler.CustomFatalExceptionStrategy;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
@@ -45,7 +39,7 @@ import org.springframework.util.ErrorHandler;
  */
 @Configuration
 @ConditionalOnProperty(value = "amqp.configuration.current", havingValue = "parking-lot-dlx")
-public class ParkingLotDlxAmqpConfiguration extends BaseRabbitConfiguration {
+public class ParkingLotDlxAmqpConfiguration extends CustomDlxAmqpConfiguration {
 
   /**
    * Creates a Fanout Exchange for the Parking Lot.
@@ -80,80 +74,6 @@ public class ParkingLotDlxAmqpConfiguration extends BaseRabbitConfiguration {
   }
 
   // --------------------------------------------------------------------------
-  // The DLX, DLQ, and Bindings
-  // --------------------------------------------------------------------------
-
-  /**
-   * Creates the DLX Fanout Exchange.
-   *
-   * @return the exchange.
-   */
-  @Bean
-  FanoutExchange createDlx() {
-    return new FanoutExchange(DLX);
-  }
-
-  /**
-   * Creates the DLQ.
-   *
-   * @return the DLQ.
-   */
-  @Bean
-  Queue createDlq() {
-    return QueueBuilder.nonDurable(DLQ).build();
-  }
-
-  /**
-   * Binds the DLQ to the DLX.
-   *
-   * @return the Binding.
-   */
-  @Bean
-  Binding createDeadLetterBinding() {
-    return BindingBuilder.bind(createDlq()).to(createDlx());
-  }
-
-  // --------------------------------------------------------------------------
-  // The Business messaging Queues, Exchange, and Bindings
-  // --------------------------------------------------------------------------
-
-  /**
-   * Creates the Business message Direct Exchange.
-   *
-   * @return the exchange.
-   */
-  @Bean
-  DirectExchange createMessagesExchange() {
-    return new DirectExchange(MESSAGES_EXCHANGE);
-  }
-
-  /**
-   * Creates the Business message queue.
-   *
-   * <p>Tells Rabbit to use DLX for failed messages.
-   *
-   * @return the queue.
-   */
-  @Bean
-  Queue createMessagesQueue() {
-    return QueueBuilder.nonDurable(MESSAGES_QUEUE)
-        .withArgument("x-dead-letter-exchange", DLX)
-        .build();
-  }
-
-  /**
-   * Binds the Business message queue to the Business message exchange.
-   *
-   * @return the Binding.
-   */
-  @Bean
-  Binding createMessagesBinding() {
-    return BindingBuilder.bind(createMessagesQueue())
-        .to(createMessagesExchange())
-        .with(MESSAGES_QUEUE);
-  }
-
-  // --------------------------------------------------------------------------
   // Global error handling strategy.
   // --------------------------------------------------------------------------
 
@@ -168,7 +88,6 @@ public class ParkingLotDlxAmqpConfiguration extends BaseRabbitConfiguration {
   SimpleRabbitListenerContainerFactory createSimpleRabbitListenerContainerFactory(
       ConnectionFactory connectionFactory,
       SimpleRabbitListenerContainerFactoryConfigurer configurer) {
-
     final SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
     configurer.configure(factory, connectionFactory);
     factory.setErrorHandler(createErrorHandler());

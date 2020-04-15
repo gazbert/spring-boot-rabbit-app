@@ -11,31 +11,31 @@ The logging level is set to 'info'.
 See log4j2 guide for more options: http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingRandomAccessFileAppender
 -->
 <Configuration status="warn" name="spring-boot-rabbit-app" packages="">
-    <Appenders>
-        <RollingFile name="SpringBootRabbitApp_RollingFile" fileName="./logs/app.log"
-                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout>
-                <Pattern>%-4r [%t] %d %-5p %c{1} %M() - %m%n</Pattern>
-            </PatternLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="100 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="90"/>
-        </RollingFile>
-        <Console name="STDOUT" target="SYSTEM_OUT">
-            <PatternLayout>
-                <Pattern>%-4r [%t] %d %-5p %c{1} %M() - %m%n</Pattern>
-            </PatternLayout>
-        </Console>
-    </Appenders>
-    <Loggers>
-        <!--
-        NOTE: debug logging must be set for executing Integration Tests.
-        -->
-        <Root level="debug">
-            <AppenderRef ref="SpringBootRabbitApp_RollingFile"/>
-            <AppenderRef ref="STDOUT"/>
-        </Root>
-    </Loggers>
+  <Appenders>
+    <RollingFile name="SpringBootRabbitApp_RollingFile" fileName="./logs/app.log"
+      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+      <PatternLayout>
+        <Pattern>%-4r [%t] %d %-5p %c{1} %M() - %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="90"/>
+    </RollingFile>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout>
+        <Pattern>%-4r [%t] %d %-5p %c{1} %M() - %m%n</Pattern>
+      </PatternLayout>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <!--
+    NOTE: debug logging must be set for executing Integration Tests.
+    -->
+    <Root level="debug">
+      <AppenderRef ref="SpringBootRabbitApp_RollingFile"/>
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
 </Configuration>

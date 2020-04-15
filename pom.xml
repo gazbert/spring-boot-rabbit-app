@@ -275,6 +275,9 @@
             <exclude>**/DirectMessageConsumer.class</exclude> <!-- not testing System.out -->
             <exclude>**/FanoutMessageConsumer.class</exclude> <!-- not testing System.out -->
             <exclude>**/TopicMessageConsumer.class</exclude> <!-- not testing System.out -->
+
+            <!-- TODO: Needs PowerMock for final SimpleRabbitListenerContainerFactoryConfigurer -->
+            <exclude>**/ParkingLotDlxAmqpConfiguration.class</exclude>
           </excludes>
         </configuration>
         <executions>

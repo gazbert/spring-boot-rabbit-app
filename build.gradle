@@ -178,7 +178,10 @@ jacocoTestCoverageVerification {
                     // Not testing the System.out statements
                     'com.gazbert.rabbitsample.publish.direct.DirectMessageConsumer',
                     'com.gazbert.rabbitsample.publish.fanout.FanoutMessageConsumer',
-                    'com.gazbert.rabbitsample.publish.topic.TopicMessageConsumer'
+                    'com.gazbert.rabbitsample.publish.topic.TopicMessageConsumer',
+
+                    // TODO: Needs PowerMock for final SimpleRabbitListenerContainerFactoryConfigurer
+                    'com.gazbert.rabbitsample.errorhandling.configuration.ParkingLotDlxAmqpConfiguration'
             ]
             limit {
                 counter = 'LINE'
