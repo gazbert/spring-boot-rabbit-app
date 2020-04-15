@@ -90,6 +90,12 @@ The unit test report locations are:
 The integration tests require a running instance of Rabbit -
 [Testcontainers](https://www.testcontainers.org/) is used to achieve this. The IT tests are located 
 [here](./src/integration-test/java/com/gazbert/rabbitsample/it).
+
+The Spring profile must be set to 'integration-test' in the 
+[./config/application.properties](./config/application.properties) file:
+```properties
+spring.profiles.active=integration-test
+```
  
 To run the IT tests:
 * Gradle - `./gradlew integrationTests`
