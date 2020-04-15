@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnProperty(value = "amqp.configuration.current", havingValue = "simple-dlq")
-class SimpleDlqAmqpConfiguration extends BaseRabbitConfiguration {
+public class SimpleDlqAmqpConfiguration extends BaseRabbitConfiguration {
 
   /**
    * Create a Direct Exchange.

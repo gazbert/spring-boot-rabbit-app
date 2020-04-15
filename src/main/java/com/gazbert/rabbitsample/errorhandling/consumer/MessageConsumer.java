@@ -73,7 +73,7 @@ public class MessageConsumer {
    * @return the container.
    */
   @Bean
-  @ConditionalOnProperty(value = "amqp.configuration.current", havingValue = "dlx-custom")
+  @ConditionalOnProperty(value = "amqp.configuration.current", havingValue = "custom-dlx")
   CustomDlqAmqpContainer createCustomDlqAmqpContainer() {
     return new CustomDlqAmqpContainer(rabbitTemplate);
   }
