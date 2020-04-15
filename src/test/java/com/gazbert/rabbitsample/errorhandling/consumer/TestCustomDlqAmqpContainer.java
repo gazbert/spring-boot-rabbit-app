@@ -41,6 +41,27 @@ public class TestCustomDlqAmqpContainer {
   public void testProcessFailedMessageAndRetrySendingFirstTime() {
     final MessageProperties messageProperties = MessagePropertiesBuilder.newInstance().build();
     messageProperties.setReceivedRoutingKey(DLQ);
+    messageProperties.getHeaders().put(HEADER_X_RETRIES_COUNT, 0);
+
+    final Message message =
+        new Message(FAILED_MESSAGE.getBytes(Charset.forName("UTF-8")), messageProperties);
+
+    final CustomDlqAmqpContainer container = new CustomDlqAmqpContainer(rabbitTemplateMock);
+    assertThatCode(() -> container.processFailedMessageAndRetrySendingXTimes(message))
+        .doesNotThrowAnyException();
+    assertThat(message.getMessageProperties().getHeaders().get(HEADER_X_RETRIES_COUNT))
+        .isEqualTo(1);
+    Mockito.verify(rabbitTemplateMock)
+        .send(
+            eq(MESSAGES_EXCHANGE),
+            eq(message.getMessageProperties().getReceivedRoutingKey()),
+            eq(message));
+  }
+
+  @Test
+  public void testProcessFailedMessageAndRetrySendingSecondTime() {
+    final MessageProperties messageProperties = MessagePropertiesBuilder.newInstance().build();
+    messageProperties.setReceivedRoutingKey(DLQ);
     messageProperties.getHeaders().put(HEADER_X_RETRIES_COUNT, 1);
 
     final Message message =

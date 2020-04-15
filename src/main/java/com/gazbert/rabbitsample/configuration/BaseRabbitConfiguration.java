@@ -80,8 +80,4 @@ public class BaseRabbitConfiguration {
   void setUsername(String username) {
     this.username = username;
   }
-
-  void setPassword(String password) {
-    this.password = password;
-  }
 }
