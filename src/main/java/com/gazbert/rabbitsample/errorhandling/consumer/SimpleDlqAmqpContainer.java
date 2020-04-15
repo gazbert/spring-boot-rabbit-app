@@ -39,7 +39,7 @@ public class SimpleDlqAmqpContainer {
   //   */
   //  @RabbitListener(queues = DLQ)
   //  public void processFailedMessages(Message failedMessage) {
-  //    LOG.warn("Received failed message: {}", failedMessage.toString());
+  //    LOG.warn("Received failed message: {}", failedMessage);
   //  }
 
   // --------------------------------------------------------------------------
@@ -55,7 +55,7 @@ public class SimpleDlqAmqpContainer {
   @RabbitListener(queues = DLQ)
   void processFailedMessage(Message message) {
 
-    LOG.warn("Received failed message, re-queueing message: {}", message.toString());
+    LOG.warn("Received failed message, re-queueing message: {}", message);
     LOG.warn(
         "Received failed message, re-queueing routing key id: {}",
         message.getMessageProperties().getReceivedRoutingKey());

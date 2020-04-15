@@ -42,7 +42,7 @@ public class MessageConsumer {
    */
   @RabbitListener(queues = MESSAGES_QUEUE)
   void receiveMessage(MessagePayload message) throws BusinessException {
-    LOG.info("Received message: {}", message.toString());
+    LOG.info("Received message: {}", message);
     throw new BusinessException("Ripley, you've blown the transaxle!");
     // throw new RuntimeException("FATAL ERROR! Rabbit decides using CustomFatalExceptionStrategy");
   }

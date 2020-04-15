@@ -82,6 +82,6 @@ public class ParkingLotDlqAmqpContainer {
    */
   @RabbitListener(queues = PARKING_LOT_QUEUE)
   void processParkingLotQueue(Message failedMessage) {
-    LOGGER.info("Received message in parking lot queue {}", failedMessage.toString());
+    LOGGER.info("Received message in parking lot queue {}", failedMessage);
   }
 }
