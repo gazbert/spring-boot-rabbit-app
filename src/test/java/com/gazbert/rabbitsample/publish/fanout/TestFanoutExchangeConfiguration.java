@@ -33,8 +33,8 @@ public class TestFanoutExchangeConfiguration {
 
     final List<FanoutExchange> exchanges = declarables.getDeclarablesByType(FanoutExchange.class);
     assertThat(exchanges.size()).isEqualTo(1);
-    assertThat(exchanges.get(0).getType().equals("fanout"));
-    assertThat(exchanges.get(0).getName().equals(FANOUT_EXCHANGE_NAME));
+    assertThat(exchanges.get(0).getType().equals("fanout")).isTrue();
+    assertThat(exchanges.get(0).getName().equals(FANOUT_EXCHANGE_NAME)).isTrue();
 
     final List<Binding> bindings = declarables.getDeclarablesByType(Binding.class);
     assertThat(bindings.size()).isEqualTo(2);

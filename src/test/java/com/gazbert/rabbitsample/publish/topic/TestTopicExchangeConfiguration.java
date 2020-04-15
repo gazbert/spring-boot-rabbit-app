@@ -35,8 +35,8 @@ public class TestTopicExchangeConfiguration {
 
     final List<TopicExchange> exchanges = declarables.getDeclarablesByType(TopicExchange.class);
     assertThat(exchanges.size()).isEqualTo(1);
-    assertThat(exchanges.get(0).getType().equals("topic"));
-    assertThat(exchanges.get(0).getName().equals(TOPIC_EXCHANGE_NAME));
+    assertThat(exchanges.get(0).getType().equals("topic")).isTrue();
+    assertThat(exchanges.get(0).getName().equals(TOPIC_EXCHANGE_NAME)).isTrue();
 
     final List<Binding> bindings = declarables.getDeclarablesByType(Binding.class);
     assertThat(bindings.size()).isEqualTo(2);
