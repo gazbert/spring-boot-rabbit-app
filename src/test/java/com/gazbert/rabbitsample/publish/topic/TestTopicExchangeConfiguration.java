@@ -1,6 +1,5 @@
 package com.gazbert.rabbitsample.publish.topic;
 
-import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.AUTO_DELETE;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.BINDING_PATTERN_ERROR;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.BINDING_PATTERN_HIGH_PRIORITY;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.IS_DURABLE;
@@ -25,22 +24,20 @@ public class TestTopicExchangeConfiguration {
 
   @Test
   public void testTopicBindingCreation() {
-
-    final Queue topicQueue1 = new Queue(TOPIC_QUEUE_1_NAME, IS_DURABLE);
-    final Queue topicQueue2 = new Queue(TOPIC_QUEUE_2_NAME, IS_DURABLE);
-
-    final TopicExchange topicExchange =
-        new TopicExchange(TOPIC_EXCHANGE_NAME, IS_DURABLE, AUTO_DELETE);
-
     final TopicExchangeConfiguration topicConfig = new TopicExchangeConfiguration();
     final Declarables declarables = topicConfig.createTopicBindings();
 
     final List<Queue> queues = declarables.getDeclarablesByType(Queue.class);
-    assertThat(queues.contains(topicQueue1)).isTrue();
-    assertThat(queues.contains(topicQueue2)).isTrue();
+    assertThat(queues.size()).isEqualTo(2);
+    assertThat(queues.get(0).getName()).isEqualTo(TOPIC_QUEUE_1_NAME);
+    assertThat(queues.get(0).isDurable()).isFalse();
+    assertThat(queues.get(1).getName()).isEqualTo(TOPIC_QUEUE_2_NAME);
+    assertThat(queues.get(1).isDurable()).isFalse();
 
     final List<TopicExchange> exchanges = declarables.getDeclarablesByType(TopicExchange.class);
-    assertThat(exchanges.contains(topicExchange)).isTrue();
+    assertThat(exchanges.size()).isEqualTo(1);
+    assertThat(exchanges.get(0).getType().equals("topic"));
+    assertThat(exchanges.get(0).getName().equals(TOPIC_EXCHANGE_NAME));
 
     final List<Binding> bindings = declarables.getDeclarablesByType(Binding.class);
     assertThat(bindings.size()).isEqualTo(2);
