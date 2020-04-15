@@ -47,7 +47,7 @@ public class MessageProducer {
     payload.setType("ALERT");
     payload.setDescription("They mostly come at night... mostly.");
 
-    LOG.info(String.format("Sending message: %s", payload));
+    LOG.info("Sending message: {}", payload);
 
     rabbitTemplate.convertAndSend(MESSAGES_EXCHANGE, MESSAGES_QUEUE, payload, messagePostProcessor);
   }
@@ -75,10 +75,9 @@ public class MessageProducer {
      *
      * @param message the message.
      * @return the message with the expiration time set.
-     * @throws AmqpException if anything unexpected happens.
      */
     @Override
-    public Message postProcessMessage(final Message message) throws AmqpException {
+    public Message postProcessMessage(final Message message) {
       message.getMessageProperties().getHeaders().put("expiration", ttl.toString());
       return message;
     }

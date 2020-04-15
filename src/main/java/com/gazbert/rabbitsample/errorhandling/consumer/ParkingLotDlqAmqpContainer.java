@@ -22,7 +22,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
  */
 public class ParkingLotDlqAmqpContainer {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ParkingLotDlqAmqpContainer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ParkingLotDlqAmqpContainer.class);
   private static final String HEADER_X_RETRIES_COUNT = "x-retries-count";
 
   private final RabbitTemplate rabbitTemplate;
@@ -53,8 +53,8 @@ public class ParkingLotDlqAmqpContainer {
     }
 
     if (retriesCnt >= MAX_RETRIES_COUNT) {
-      LOGGER.warn(String.format("Retry limit of %d exceeded!", MAX_RETRIES_COUNT));
-      LOGGER.info("Sending message to the parking lot queue...");
+      LOG.warn("Retry limit of {} exceeded!", MAX_RETRIES_COUNT);
+      LOG.info("Sending message to the parking lot queue...");
       rabbitTemplate.send(
           PARKING_LOT_EXCHANGE,
           failedMessage.getMessageProperties().getReceivedRoutingKey(),
@@ -62,7 +62,7 @@ public class ParkingLotDlqAmqpContainer {
       return;
     }
 
-    LOGGER.info("Retrying message for the {} time", retriesCnt + 1);
+    LOG.info("Retrying message for the {} time", retriesCnt + 1);
     failedMessage.getMessageProperties().getHeaders().put(HEADER_X_RETRIES_COUNT, ++retriesCnt);
     rabbitTemplate.send(
         MESSAGES_EXCHANGE,
@@ -82,6 +82,6 @@ public class ParkingLotDlqAmqpContainer {
    */
   @RabbitListener(queues = PARKING_LOT_QUEUE)
   void processParkingLotQueue(Message failedMessage) {
-    LOGGER.info("Received message in parking lot queue {}", failedMessage);
+    LOG.info("Received message in parking lot queue {}", failedMessage);
   }
 }

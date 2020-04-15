@@ -47,7 +47,7 @@ public class CustomDlqAmqpContainer {
       retryCount = 0;
     }
     if (retryCount >= MAX_RETRIES_COUNT) {
-      LOG.warn(String.format("Retry limit of %d exceeded - discarding message", MAX_RETRIES_COUNT));
+      LOG.warn("Retry limit of {} exceeded - discarding message", MAX_RETRIES_COUNT);
       return;
     }
 

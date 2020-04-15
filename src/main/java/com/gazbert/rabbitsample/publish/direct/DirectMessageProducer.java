@@ -40,7 +40,7 @@ public class DirectMessageProducer {
     payload.setType("ALERT");
     payload.setDescription(message);
 
-    LOG.info(String.format("Sending direct message to exchange: %s", payload));
+    LOG.info("Sending direct message to exchange: {}", payload);
     rabbitTemplate.convertAndSend(QUEUE_NAME, payload);
   }
 }
