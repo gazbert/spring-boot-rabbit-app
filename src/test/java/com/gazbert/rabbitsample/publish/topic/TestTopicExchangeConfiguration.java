@@ -2,7 +2,6 @@ package com.gazbert.rabbitsample.publish.topic;
 
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.BINDING_PATTERN_ERROR;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.BINDING_PATTERN_HIGH_PRIORITY;
-import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.IS_DURABLE;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.TOPIC_EXCHANGE_NAME;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.TOPIC_QUEUE_1_NAME;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.TOPIC_QUEUE_2_NAME;

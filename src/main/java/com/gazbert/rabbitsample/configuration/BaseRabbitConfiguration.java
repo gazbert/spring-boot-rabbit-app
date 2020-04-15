@@ -43,9 +43,9 @@ public class BaseRabbitConfiguration {
   @Bean
   ConnectionFactory connectionFactory() {
 
-    LOG.info(String.format("amqp.connection.hostname: %s", hostname));
-    LOG.info(String.format("amqp.connection.port: %d", port));
-    LOG.info(String.format("amqp.connection.username: %s", username));
+    LOG.info("amqp.connection.hostname: {}", hostname);
+    LOG.info("amqp.connection.port: {}", port);
+    LOG.info("amqp.connection.username: {}", username);
 
     CachingConnectionFactory connectionFactory = new CachingConnectionFactory(hostname, port);
     connectionFactory.setUsername(username);
