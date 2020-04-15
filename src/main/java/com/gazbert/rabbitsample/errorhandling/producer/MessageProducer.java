@@ -47,7 +47,7 @@ public class MessageProducer {
     payload.setType("ALERT");
     payload.setDescription("They mostly come at night... mostly.");
 
-    LOG.info("Sending message: " + payload);
+    LOG.info(String.format("Sending message: %s", payload));
 
     rabbitTemplate.convertAndSend(MESSAGES_EXCHANGE, MESSAGES_QUEUE, payload, messagePostProcessor);
   }

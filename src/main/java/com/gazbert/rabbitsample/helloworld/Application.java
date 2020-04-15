@@ -44,7 +44,7 @@ public class Application {
   @Bean
   ApplicationRunner runner(RabbitTemplate template) {
     final String message = "Hello World!";
-    LOG.info("Sending message to exchange: " + message);
+    LOG.info(String.format("Sending message to exchange: %s", message));
     return args -> template.convertAndSend(QUEUE_NAME, message);
   }
 
@@ -65,6 +65,6 @@ public class Application {
    */
   @RabbitListener(queues = QUEUE_NAME)
   void receiveMessage(String message) {
-    LOG.info("Message read from " + QUEUE_NAME + " : " + message);
+    LOG.info(String.format("Message read from %s : %s", QUEUE_NAME, message));
   }
 }

@@ -29,7 +29,7 @@ class DirectMessageConsumer {
    */
   @RabbitListener(queues = {QUEUE_NAME})
   void receiveDirectMessage(MessagePayload message) throws Exception {
-    LOG.info("Received direct message: " + message);
+    LOG.info(String.format("Received direct message: %s", message));
 
     // Hack for integration testing
     if (LOG.isDebugEnabled()) {

@@ -30,7 +30,8 @@ class TopicMessageConsumer {
    */
   @RabbitListener(queues = {TOPIC_QUEUE_1_NAME})
   void receiveMessageFromTopicQueue1(MessagePayload message) throws Exception {
-    LOG.info("Received topic 1 (" + BINDING_PATTERN_HIGH_PRIORITY + ") message: " + message);
+    LOG.info(
+        String.format("Received topic 1 (%s) message: %s", BINDING_PATTERN_HIGH_PRIORITY, message));
 
     // Hack for integration testing
     if (LOG.isDebugEnabled()) {
@@ -46,7 +47,7 @@ class TopicMessageConsumer {
    */
   @RabbitListener(queues = {TOPIC_QUEUE_2_NAME})
   void receiveMessageFromTopicQueue2(MessagePayload message) throws  Exception {
-    LOG.info("Received topic 2 (" + BINDING_PATTERN_ERROR + ") message: " + message);
+    LOG.info(String.format("Received topic 2 (%s) message: %s", BINDING_PATTERN_ERROR, message));
 
     // Hack for integration testing
     if (LOG.isDebugEnabled()) {

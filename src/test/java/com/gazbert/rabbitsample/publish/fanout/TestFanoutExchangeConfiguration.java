@@ -34,11 +34,11 @@ public class TestFanoutExchangeConfiguration {
     final Declarables declarables = fanoutConfig.createFanoutBindings();
 
     final List<Queue> queues = declarables.getDeclarablesByType(Queue.class);
-    assertThat(queues.contains(fanoutQueue1));
-    assertThat(queues.contains(fanoutQueue2));
+    assertThat(queues.contains(fanoutQueue1)).isTrue();
+    assertThat(queues.contains(fanoutQueue2)).isTrue();
 
     final List<FanoutExchange> exchanges = declarables.getDeclarablesByType(FanoutExchange.class);
-    assertThat(exchanges.contains(fanoutExchange));
+    assertThat(exchanges.contains(fanoutExchange)).isTrue();
 
     final List<Binding> bindings = declarables.getDeclarablesByType(Binding.class);
     assertThat(bindings.size()).isEqualTo(2);

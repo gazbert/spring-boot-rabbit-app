@@ -30,7 +30,7 @@ class FanoutMessageConsumer {
    */
   @RabbitListener(queues = {FANOUT_QUEUE_1_NAME})
   void receiveMessageFromFanout1(MessagePayload message) throws Exception {
-    LOG.info("Received fanout 1 message: " + message);
+    LOG.info(String.format("Received fanout 1 message: %s", message));
 
     // Hack for integration testing
     if (LOG.isDebugEnabled()) {
@@ -46,7 +46,7 @@ class FanoutMessageConsumer {
    */
   @RabbitListener(queues = {FANOUT_QUEUE_2_NAME})
   void receiveMessageFromFanout2(MessagePayload message) throws Exception {
-    LOG.info("Received fanout 2 message: " + message);
+    LOG.info(String.format("Received fanout 2 message: %s", message));
 
     // Hack for integration testing
     if (LOG.isDebugEnabled()) {

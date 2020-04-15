@@ -1,5 +1,6 @@
 package com.gazbert.rabbitsample.it;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -43,7 +44,9 @@ public class TestPublishMessageAppIT {
   /** Checks that the messages have been consumed. */
   @Test
   public void testPublishingMessages() {
-    await().atMost(10, TimeUnit.SECONDS).until(areMessagesConsumed(), is(true));
+    final Boolean messagesConsumed = await().atMost(10, TimeUnit.SECONDS)
+        .until(areMessagesConsumed(), is(true));
+    assertTrue(messagesConsumed);
   }
 
   private Callable<Boolean> areMessagesConsumed() {

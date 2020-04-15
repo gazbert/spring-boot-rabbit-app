@@ -36,11 +36,11 @@ public class TestTopicExchangeConfiguration {
     final Declarables declarables = topicConfig.createTopicBindings();
 
     final List<Queue> queues = declarables.getDeclarablesByType(Queue.class);
-    assertThat(queues.contains(topicQueue1));
-    assertThat(queues.contains(topicQueue2));
+    assertThat(queues.contains(topicQueue1)).isTrue();
+    assertThat(queues.contains(topicQueue2)).isTrue();
 
     final List<TopicExchange> exchanges = declarables.getDeclarablesByType(TopicExchange.class);
-    assertThat(exchanges.contains(topicExchange));
+    assertThat(exchanges.contains(topicExchange)).isTrue();
 
     final List<Binding> bindings = declarables.getDeclarablesByType(Binding.class);
     assertThat(bindings.size()).isEqualTo(2);
