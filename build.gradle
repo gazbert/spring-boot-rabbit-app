@@ -175,10 +175,6 @@ jacocoTestCoverageVerification {
                     // Not testing main() method
                     'com.gazbert.rabbitsample.publish.PublishMessageApp',
                     'com.gazbert.rabbitsample.errorhandling.ErrorHandlingApp',
-                    // Not testing the System.out statements
-                    'com.gazbert.rabbitsample.publish.direct.DirectMessageConsumer',
-                    'com.gazbert.rabbitsample.publish.fanout.FanoutMessageConsumer',
-                    'com.gazbert.rabbitsample.publish.topic.TopicMessageConsumer',
 
                     // TODO: Needs PowerMock for final SimpleRabbitListenerContainerFactoryConfigurer
                     'com.gazbert.rabbitsample.errorhandling.configuration.ParkingLotDlxAmqpConfiguration'

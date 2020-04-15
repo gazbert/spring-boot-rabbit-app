@@ -30,10 +30,7 @@ See log4j2 guide for more options: http://logging.apache.org/log4j/2.x/manual/ap
     </Console>
   </Appenders>
   <Loggers>
-    <!--
-    NOTE: debug logging must be set for executing Integration Tests.
-    -->
-    <Root level="debug">
+    <Root level="info">
       <AppenderRef ref="SpringBootRabbitApp_RollingFile"/>
       <AppenderRef ref="STDOUT"/>
     </Root>

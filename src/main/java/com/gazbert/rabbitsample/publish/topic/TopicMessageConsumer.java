@@ -5,11 +5,12 @@ import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.TOPIC_QUEUE_1_NAME;
 import static com.gazbert.rabbitsample.publish.topic.TopicExchangeConfiguration.TOPIC_QUEUE_2_NAME;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gazbert.rabbitsample.domain.MessagePayload;
+import com.gazbert.rabbitsample.publish.util.MessageLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,6 +23,12 @@ import org.springframework.stereotype.Component;
 class TopicMessageConsumer {
 
   private static final Logger LOG = LoggerFactory.getLogger(TopicMessageConsumer.class);
+  private MessageLogger messageLogger;
+
+  @Autowired
+  TopicMessageConsumer(MessageLogger messageLogger) {
+    this.messageLogger = messageLogger;
+  }
 
   /**
    * Creates Rabbit listener for Topic queue 1.
@@ -29,14 +36,9 @@ class TopicMessageConsumer {
    * @param message the message received.
    */
   @RabbitListener(queues = {TOPIC_QUEUE_1_NAME})
-  void receiveMessageFromTopicQueue1(MessagePayload message) throws Exception {
+  void receiveMessageFromTopicQueue1(MessagePayload message) {
     LOG.info("Received topic 1 ({}) message: %{}", BINDING_PATTERN_HIGH_PRIORITY, message);
-
-    // Hack for integration testing
-    if (LOG.isDebugEnabled()) {
-      final ObjectMapper objectMapper = new ObjectMapper();
-      System.out.println(objectMapper.writeValueAsString(message));
-    }
+    messageLogger.logMessage(message);
   }
 
   /**
@@ -45,13 +47,8 @@ class TopicMessageConsumer {
    * @param message the message received.
    */
   @RabbitListener(queues = {TOPIC_QUEUE_2_NAME})
-  void receiveMessageFromTopicQueue2(MessagePayload message) throws  Exception {
+  void receiveMessageFromTopicQueue2(MessagePayload message) {
     LOG.info("Received topic 2 ({}) message: {}", BINDING_PATTERN_ERROR, message);
-
-    // Hack for integration testing
-    if (LOG.isDebugEnabled()) {
-      final ObjectMapper objectMapper = new ObjectMapper();
-      System.out.println(objectMapper.writeValueAsString(message));
-    }
+    messageLogger.logMessage(message);
   }
 }
