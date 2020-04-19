@@ -47,7 +47,7 @@ public class BaseRabbitConfiguration {
     LOG.info("amqp.connection.port: {}", port);
     LOG.info("amqp.connection.username: {}", username);
 
-    CachingConnectionFactory connectionFactory = new CachingConnectionFactory(hostname, port);
+    final CachingConnectionFactory connectionFactory = new CachingConnectionFactory(hostname, port);
     connectionFactory.setUsername(username);
     connectionFactory.setPassword(password);
     return connectionFactory;
