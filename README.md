@@ -88,7 +88,11 @@ The unit test report locations are:
 * Maven - `./target/surefire-reports`
 
 The integration tests require a running instance of Rabbit -
-[Testcontainers](https://www.testcontainers.org/) is used to achieve this. The IT tests are located 
+[Testcontainers](https://www.testcontainers.org/) is used to achieve this. You'll need to stop any
+other instance of Rabbit that you have running before running the tests, otherwise they will fail 
+to due to port clashes.
+
+The IT tests are located 
 [here](./src/integration-test/java/com/gazbert/rabbitsample/it).
 
 The Spring profile must be set to 'integration-test' in the 
