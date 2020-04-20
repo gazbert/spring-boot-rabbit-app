@@ -89,8 +89,7 @@ The unit test report locations are:
 
 The integration tests require a running instance of Rabbit -
 [Testcontainers](https://www.testcontainers.org/) is used to achieve this. You'll need to stop any
-other instance of Rabbit that you have running before running the tests, otherwise they will fail 
-to due to port clashes.
+other instance of Rabbit that you have running, otherwise the tests will fail to due to port clashes.
 
 The IT tests are located 
 [here](./src/integration-test/java/com/gazbert/rabbitsample/it).
