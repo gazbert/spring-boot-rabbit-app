@@ -30,10 +30,10 @@ import org.testcontainers.containers.GenericContainer;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PublishMessageApp.class)
-@ContextConfiguration(initializers = TestPublishMessageAppIT.Initializer.class)
-public class TestPublishMessageAppIT {
+@ContextConfiguration(initializers = PublishMessageAppIT.Initializer.class)
+public class PublishMessageAppIT {
 
-  private static final Logger LOG = LoggerFactory.getLogger(TestPublishMessageAppIT.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PublishMessageAppIT.class);
 
   @Rule public OutputCaptureRule outputCapture = new OutputCaptureRule();
 

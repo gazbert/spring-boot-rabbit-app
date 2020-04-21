@@ -86,7 +86,7 @@ configurations {
 }
 
 /*
- * Run the Testcontainer IT tests.
+ * Run the Testcontainers IT tests.
  */
 task integrationTests(type: Test) {
 
