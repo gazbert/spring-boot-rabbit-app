@@ -45,7 +45,7 @@
   <properties>
     <start-class>com.gazbert.rabbitsample.helloworld.Application</start-class>
     <spring-boot-starter.version>2.2.6.RELEASE</spring-boot-starter.version>
-    <jackson.version>2.12.1</jackson.version>
+    <jackson.version>2.13.4.1</jackson.version>
     <checkstlye.version>3.1.1</checkstlye.version>
     <spotbugs.version>4.0.0</spotbugs.version>
     <sonar.coverage.jacoco.xmlReportPaths>target/jacoco-report/jacoco.xml
